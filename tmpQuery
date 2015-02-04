@@ -1,0 +1,3 @@
+29:#AND(ps 2 games.url)
+71:#AND(living.url in india.title)
+149:#AND(uplift.title at #NEAR/1(yellowstone national park))
