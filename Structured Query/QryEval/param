@@ -1,0 +1,7 @@
+indexPath=QryEval/index
+queryFilePath=QryEval/hw3.qry
+trecEvalOutputPath=QryEval/hw3.teIn
+retrievalAlgorithm=BM25
+BM25:k_1=1.2
+BM25:b=0.75
+BM25:k_3=0
