@@ -1,8 +1,8 @@
 all:
 ifeq ($(OS),Windows_NT)
-		# assume windows
-javac -cp ".;lucene-4.3.0/*" *.java
+	# assume windows
+	javac -cp ".;lucene-4.3.0/*" *.java
 else
-		# assume Linux
-		javac  -cp ".:lucene-4.3.0/*" -d . *.java
+	# assume Linux
+	javac  -cp ".:lucene-4.3.0/*" -d . *.java
 endif

@@ -15,98 +15,103 @@ import java.util.PriorityQueue;
 
 public class ScoreList {
 
-	//  A little utilty class to create a <docid, score> object.
+    //  A little utilty class to create a <docid, score> object.
 
-	List<ScoreListEntry> scores = new ArrayList<ScoreListEntry>();
+    List<ScoreListEntry> scores = new ArrayList<ScoreListEntry>();
 
-	static String getExternalDocid(int iid) throws IOException {
-		Document d = QryEval.READER.document(iid);
-		String eid = d.get("externalId");
-		return eid;
-	}
+    static String getExternalDocid(int iid) throws IOException {
+        Document d = QryEval.READER.document(iid);
+        String eid = d.get("externalId");
+        return eid;
+    }
 
-	/**
-	 * Append a document score to a score list.
-	 *
-	 * @param docid An internal document id.
-	 * @param score The document's score.
-	 * @return void
-	 */
-	public void add(int docid, double score) {
-		scores.add(new ScoreListEntry(docid, score));
-	}
+    /**
+     * Append a document score to a score list.
+     *
+     * @param docid An internal document id.
+     * @param score The document's score.
+     * @return void
+     */
+    public void add(int docid, double score) {
+        scores.add(new ScoreListEntry(docid, score));
+    }
 
-	/**
-	 * Get the n'th document id.
-	 *
-	 * @param n The index of the requested document.
-	 * @return The internal document id.
-	 */
-	public int getDocid(int n) {
-		return this.scores.get(n).docid;
-	}
+    /**
+     * Get the n'th document id.
+     *
+     * @param n The index of the requested document.
+     * @return The internal document id.
+     */
+    public int getDocid(int n) {
+        return this.scores.get(n).docid;
+    }
 
-	/**
-	 * Get the score of the n'th document.
-	 *
-	 * @param n The index of the requested document score.
-	 * @return The document's score.
-	 */
-	public double getDocidScore(int n) {
-		return this.scores.get(n).score;
-	}
+    /**
+     * Get the score of the n'th document.
+     *
+     * @param n The index of the requested document score.
+     * @return The document's score.
+     */
+    public double getDocidScore(int n) {
+        return this.scores.get(n).score;
+    }
 
-	/**
-	 * Sort with max heap.
-	 */
-	public void sortScoreList() {
-		int size = Math.min(100, this.scores.size());
-		//size = 100;
-		PriorityQueue<ScoreListEntry> queue = new PriorityQueue<ScoreListEntry>(size, new ScoreListComparator());
+    /**
+     * Sort with max heap.
+     */
+    public void sortScoreList() {
+        int size = Math.min(100, this.scores.size());
+        //size = 100;
+        PriorityQueue<ScoreListEntry> queue = new PriorityQueue<ScoreListEntry>(size, new ScoreListComparator());
 
-		for (ScoreListEntry entry : this.scores) {
-			queue.offer(entry);
-		}
+        for (ScoreListEntry entry : this.scores) {
+            queue.offer(entry);
+        }
 
-		List<ScoreListEntry> res = new ArrayList<ScoreListEntry>();
+        List<ScoreListEntry> res = new ArrayList<ScoreListEntry>();
 
-		while (size-- > 0) {
-			res.add(queue.poll());
-		}
+        while (size-- > 0) {
+            res.add(queue.poll());
+        }
 
-		this.scores = res;
-	}
+        this.scores = res;
+    }
 
-	public class ScoreListComparator implements Comparator<ScoreListEntry> {
+    public class ScoreListComparator implements Comparator<ScoreListEntry> {
 
-		@Override
-		public int compare(ScoreListEntry o1, ScoreListEntry o2) {
-			String externalDocid1 = "";
-			String externalDocid2 = "";
-			int res = Double.compare(o1.score, o2.score);
+        @Override
+        public int compare(ScoreListEntry o1, ScoreListEntry o2) {
+            String externalDocid1 = "";
+            String externalDocid2 = "";
+            int res = Double.compare(o1.score, o2.score);
 
-			if (res != 0) {
-				return -res;
-			}
+            if (res != 0) {
+                return -res;
+            }
 
-			try {
-				externalDocid1 = getExternalDocid(o1.docid);
-				externalDocid2 = getExternalDocid(o2.docid);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+            try {
+                externalDocid1 = getExternalDocid(o1.docid);
+                externalDocid2 = getExternalDocid(o2.docid);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-			return externalDocid1.compareTo(externalDocid2);
-		}
-	}
+            return externalDocid1.compareTo(externalDocid2);
+        }
+    }
 
-	protected class ScoreListEntry {
-		private int docid;
-		private double score;
+    protected class ScoreListEntry implements Comparable<ScoreListEntry> {
+        private int docid;
+        private double score;
 
-		private ScoreListEntry(int docid, double score) {
-			this.docid = docid;
-			this.score = score;
-		}
-	}
+        private ScoreListEntry(int docid, double score) {
+            this.docid = docid;
+            this.score = score;
+        }
+
+        @Override
+        public int compareTo(ScoreListEntry that) {
+            return this.docid - that.docid;
+        }
+    }
 }

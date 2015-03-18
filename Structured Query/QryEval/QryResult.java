@@ -15,9 +15,9 @@
 
 public class QryResult {
 
-	// Store the results of different types of query operators.
-
-	ScoreList docScores = new ScoreList();
-	InvList invertedList = new InvList();
+    // Store the results of different types of query operators.
+    double weight;
+    ScoreList docScores = new ScoreList();
+    InvList invertedList = new InvList();
 
 }

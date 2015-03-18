@@ -13,24 +13,24 @@ import java.io.IOException;
 
 public abstract class QryopIl extends Qryop {
 
-	/**
-	 * Use the specified retrieval model to evaluate the query arguments.
-	 * Define and return ArgPtrs pointers that the query operator can use.
-	 *
-	 * @param r A retrieval model that controls how the operator behaves.
-	 * @return void
-	 * @throws IOException
-	 */
-	public void allocArgPtrs(RetrievalModel r) throws IOException {
+    /**
+     * Use the specified retrieval model to evaluate the query arguments.
+     * Define and return ArgPtrs pointers that the query operator can use.
+     *
+     * @param r A retrieval model that controls how the operator behaves.
+     * @return void
+     * @throws IOException
+     */
+    public void allocArgPtrs(RetrievalModel r) throws IOException {
 
-		for (int i = 0; i < this.args.size(); i++) {
-			ArgPtr ptri = new ArgPtr();
-			ptri.invList = this.args.get(i).evaluate(r).invertedList;
-			ptri.scoreList = null;
-			ptri.nextDoc = 0;
+        for (int i = 0; i < this.args.size(); i++) {
+            ArgPtr ptri = new ArgPtr();
+            ptri.invList = this.args.get(i).evaluate(r).invertedList;
+            ptri.scoreList = null;
+            ptri.nextDoc = 0;
 
-			this.argPtrs.add(ptri);
-		}
-	}
+            this.argPtrs.add(ptri);
+        }
+    }
 
 }
